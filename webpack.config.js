@@ -7,8 +7,15 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
-    devtool: "eval-source-map",
-    entry: __dirname + "/app/redux/index.js",
+    devtool: "inline-source-map",
+    //entry: ["babel-polyfill", __dirname + "/app/react/tutorial/index.js" ],
+    entry: [
+        'babel-polyfill',
+        __dirname + "/app/es6/Root.js"
+    ],
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
     output: {
         path: __dirname + "/build",
         filename: "bundle.js"
@@ -16,16 +23,22 @@ module.exports = {
     devServer: {
         colors: true,
         historyApiFallback: true,
-        inline:true,
+        inline: true,
         port: 3888,
         hot: true
     },
     module: {
-        loaders: [
-            { test: /\.css$/, loader: "style!css?modules!postcss" },
-            { test: /\.json$/, loader: "json" },
-            { test: /\.js$/, exclude: /node-modules/, loader: "babel"}
-        ]
+        loaders: [{
+            test: /\.css$/,
+            loader: "style!css?modules!postcss"
+        }, {
+            test: /\.json$/,
+            loader: "json"
+        }, {
+            test: /\.js[x]?$/,
+            exclude: /node-modules/,
+            loader: "babel"
+        }]
     },
     postcss: [
         require('autoprefixer')
@@ -36,6 +49,11 @@ module.exports = {
             template: __dirname + "/app/index.tmpl.html"
         }),
         new webpack.HotModuleReplacementPlugin(),
-        new OpenBrowserPlugin({url: 'http://localhost:3888'})
+        new webpack.ProvidePlugin({
+            d3: 'd3'
+        }),
+        new OpenBrowserPlugin({
+            url: 'http://localhost:3888'
+        })
     ]
 };

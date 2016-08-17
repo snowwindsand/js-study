@@ -13,11 +13,11 @@ import {
 	createStore
 } from 'redux'
 import App from './components/App'
-import {
+import configureStore, {
 	configureStoreSimple
 } from './store/configureStore'
 
-let store = configureStoreSimple()
+let store = configureStore()
 
 render(
 	<Provider store={store}>

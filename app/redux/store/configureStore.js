@@ -4,6 +4,12 @@ import {
 	compose
 } from 'redux';
 import testApp from '../reducers';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+
+const middleware = [
+	thunk, logger()
+];
 
 export default function configureStore(initialState) {
 	const store = createStore(testApp, initialState, compose(
